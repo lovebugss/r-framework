@@ -1,7 +1,6 @@
 package com.itrjp.log.aspect;
 
 import com.itrjp.log.util.MDCTraceUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -32,9 +31,13 @@ public class ScheduledAspect {
         try {
             // 添加traceId
             MDCTraceUtils.putTraceId(MDCTraceUtils.createTraceId());
-            log.info("enter {}()", joinPoint.getSignature().getName());
+            if (log.isDebugEnabled()) {
+                log.debug("enter {}()", joinPoint.getSignature().getName());
+            }
             Object result = joinPoint.proceed();
-            log.info("exit: {}(), with result = {}", joinPoint.getSignature().getName(), result);
+            if (log.isDebugEnabled()) {
+                log.debug("exit: {}(), with result = {}", joinPoint.getSignature().getName(), result);
+            }
             return result;
         } finally {
             // 删除traceId

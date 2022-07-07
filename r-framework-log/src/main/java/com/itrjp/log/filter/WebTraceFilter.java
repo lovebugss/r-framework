@@ -1,30 +1,41 @@
-package com.itrjp.web.filter;
+package com.itrjp.log.filter;
 
+import com.itrjp.core.util.StringUtils;
 import com.itrjp.log.util.MDCTraceUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static com.itrjp.log.util.MDCTraceUtils.TRACE_HEADER_NAME;
 
 /**
- * 添加traceId
+ * WebTraceFilter 添加traceId
  *
- * @author renjp
- * @date 2022/4/27 23:59
+ * @author <a href="mailto:r979668507@gmail.com">renjp</a>
+ * @date 2022/6/30 10:13
  */
 @Configuration
 @WebFilter(value = "/**")
 @Order(Integer.MIN_VALUE)
-public class TraceFilter implements Filter {
-
+@ConditionalOnClass({Filter.class, HttpServletRequest.class})
+public class WebTraceFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        MDCTraceUtils.addTraceId();
+        if (servletRequest instanceof HttpServletRequest) {
+            String traceId = ((HttpServletRequest) servletRequest).getHeader(TRACE_HEADER_NAME);
+            if (StringUtils.isNotEmpty(traceId)) {
+                MDCTraceUtils.putTraceId(traceId);
+            } else {
+                MDCTraceUtils.addTraceId();
+            }
+        }
+
         if (servletResponse instanceof HttpServletResponse) {
             HttpServletResponse resp = (HttpServletResponse) servletResponse;
             resp.addHeader(TRACE_HEADER_NAME, MDCTraceUtils.getTraceId());

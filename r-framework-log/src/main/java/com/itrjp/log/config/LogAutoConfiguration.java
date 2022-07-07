@@ -1,17 +1,12 @@
 package com.itrjp.log.config;
 
-import com.itrjp.log.aspect.ScheduledAspect;
+import com.itrjp.log.filter.FeignTraceInterceptor;
 import com.itrjp.log.properties.LogProperties;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import feign.RequestInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor;
-import org.springframework.scheduling.annotation.SchedulingConfiguration;
-
-import javax.annotation.PostConstruct;
 
 /**
  * TODO
@@ -21,16 +16,19 @@ import javax.annotation.PostConstruct;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(LogProperties.class)
-public class LogAutoConfigure {
+public class LogAutoConfiguration {
+
     private final LogProperties properties;
 
-    public LogAutoConfigure(LogProperties properties) {
+    public LogAutoConfiguration(LogProperties properties) {
         this.properties = properties;
     }
 
 
     @Bean
-    ScheduledAspect scheduledAspect() {
-        return new ScheduledAspect();
+    @ConditionalOnClass(RequestInterceptor.class)
+    FeignTraceInterceptor feignTraceInterceptor() {
+        return new FeignTraceInterceptor();
     }
+
 }

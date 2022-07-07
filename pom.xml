@@ -12,6 +12,8 @@
         <module>r-framework-core</module>
         <module>r-framework-validation</module>
         <module>r-framework-demo</module>
+        <module>r-framework-mq</module>
+        <module>r-framework-cloud</module>
     </modules>
     <name>r-framework</name>
     <description>Demo project for Spring Boot</description>
@@ -22,6 +24,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.4.1</spring-boot.version>
         <skywalking.version>8.9.0</skywalking.version>
+        <aws.sdk.version>2.17.225</aws.sdk.version>
+        <aliyun.sdk.version>3.10.2</aliyun.sdk.version>
     </properties>
 
     <dependencies>
@@ -50,6 +54,19 @@
                 <groupId>org.apache.skywalking</groupId>
                 <artifactId>apm-toolkit-trace</artifactId>
                 <version>${skywalking.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>${aws.sdk.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun.sdk.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
