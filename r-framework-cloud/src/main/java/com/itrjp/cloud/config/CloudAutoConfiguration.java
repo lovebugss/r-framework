@@ -7,6 +7,7 @@ import com.itrjp.cloud.base.storage.ObjectStorageService;
 import com.itrjp.cloud.consts.CloudType;
 import com.itrjp.cloud.properties.CloudProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +28,7 @@ public class CloudAutoConfiguration {
 
 
     @Bean
-    @ConditionalOnBean(CloudFactory.class)
+    @ConditionalOnMissingBean(CloudFactory.class)
     CloudFactory cloudFactory() {
         CloudType defaultType = cloudProperties.getDefaultType();
         switch (defaultType) {

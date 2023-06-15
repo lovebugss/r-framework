@@ -16,7 +16,6 @@ import java.io.File;
  * @author <a href="mailto:r979668507@gmail.com">renjp</a>
  * @date 2022/7/7 15:55
  */
-@Service
 public class AmazonS3Adapter extends AmazonService implements ObjectStorageService {
 
     private final S3Client s3Client;

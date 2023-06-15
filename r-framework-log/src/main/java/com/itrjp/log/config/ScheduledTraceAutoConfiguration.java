@@ -18,6 +18,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class ScheduledTraceAutoConfiguration {
     @Bean
     ScheduledAspect scheduledAspect() {
+        System.out.println("xxxxxxxxxxxxxxx");
         return new ScheduledAspect();
     }
 }

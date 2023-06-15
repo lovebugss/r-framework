@@ -34,7 +34,6 @@ public class GlobalExceptionHandler {
 
     /**
      * 自定义业务异常处理
-     * Merge branch 'fix_fastjson' into test
      *
      * @param exception
      * @return

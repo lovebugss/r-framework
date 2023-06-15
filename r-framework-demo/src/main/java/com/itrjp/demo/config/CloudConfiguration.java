@@ -8,6 +8,6 @@ import com.itrjp.cloud.annotation.EnableCloudService;
  * @author <a href="mailto:r979668507@gmail.com">renjp</a>
  * @date 2022/7/7 16:02
  */
-@EnableCloudService
+//@EnableCloudService
 public class CloudConfiguration {
 }

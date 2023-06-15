@@ -4,7 +4,6 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.itrjp.cloud.aliyun.AliyunService;
 import com.itrjp.cloud.base.storage.ObjectStorageService;
-import org.springframework.stereotype.Service;
 
 import java.io.File;
 
@@ -14,7 +13,6 @@ import java.io.File;
  * @author <a href="mailto:r979668507@gmail.com">renjp</a>
  * @date 2022/7/7 16:08
  */
-@Service
 public class AliyunOSSAdapter extends AliyunService implements ObjectStorageService {
     private final OSS client;
 
