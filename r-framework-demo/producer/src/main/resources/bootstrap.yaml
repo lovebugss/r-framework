@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        namespace: 19d25558-a242-4819-b3b5-5c5837997490
+      discovery:
+        namespace: 19d25558-a242-4819-b3b5-5c5837997490
+
+      server-addr: 192.168.50.162:8848
+      username: nacos
+      password: nacos
+  application:
+    name: producer
+  config:
+    import: nacos:application.yaml?refresh=true
+server:
+  port: 8090

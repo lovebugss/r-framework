@@ -15,7 +15,7 @@ import java.util.UUID;
 public class MDCTraceUtils {
 
     public static final String TRACE_ID = "traceId";
-    public static final String TRACE_HEADER_NAME = "x-request-id";
+    public static final String TRACE_HEADER_NAME = "X-Request-ID";
 
     public static void addTraceId() {
         MDC.put(TRACE_ID, createTraceId());
