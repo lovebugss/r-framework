@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public final class Result<T> {
     private final int code;
     private final String message;
+    private final Long timestamp = System.currentTimeMillis();
     private final T data;
 
     private Result(int code, String message, T data) {
@@ -52,8 +53,17 @@ public final class Result<T> {
         return data;
     }
 
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
     @Override
     public String toString() {
-        return "Result{" + "code=" + code + ", message='" + message + '\'' + ", data=" + data + '}';
+        return "Result{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                ", timestamp=" + timestamp +
+                ", data=" + data +
+                '}';
     }
 }

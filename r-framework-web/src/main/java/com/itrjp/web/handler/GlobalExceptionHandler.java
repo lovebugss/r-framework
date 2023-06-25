@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = BizException.class)
     public Result<Void> handlerBizException(BizException exception) {
-        logger.error("biz-exception: " + exception.getMessage());
+        logger.warn("biz-exception: " + exception.getMessage());
         return Result.error(exception.getCode(), exception.getMessage());
     }
 }

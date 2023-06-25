@@ -5,7 +5,6 @@ import com.itrjp.demo.common.api.DemoApi;
 import com.itrjp.demo.common.pojo.vo.DemoVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
