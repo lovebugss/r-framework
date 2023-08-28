@@ -13,7 +13,12 @@
         <module>r-framework-validation</module>
         <module>r-framework-demo</module>
         <module>r-framework-mq</module>
+        <module>r-framework-auth</module>
         <module>r-framework-cloud</module>
+        <module>r-framework-cloud/r-framework-cloud-base</module>
+        <module>r-framework-cloud/r-framework-cloud-huawei</module>
+        <module>r-framework-cloud/r-framework-cloud-aliyun</module>
+        <module>r-framework-cloud/r-framework-cloud-amazon</module>
     </modules>
     <name>r-framework</name>
     <description>Demo project for Spring Boot</description>

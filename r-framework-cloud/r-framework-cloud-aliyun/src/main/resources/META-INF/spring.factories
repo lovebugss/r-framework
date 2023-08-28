@@ -1,0 +1,2 @@
+com.itrjp.cloud.annotation.EnableCloudService=\
+com.itrjp.cloud.aliyun.config.AliCloudConfiguration

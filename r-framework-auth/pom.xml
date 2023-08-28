@@ -10,13 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
 
-    <artifactId>r-framework-cloud</artifactId>
-    <modules>
-        <module>r-framework-cloud-base</module>
-        <module>r-framework-cloud-aliyun</module>
-        <module>r-framework-cloud-amazon</module>
-        <module>r-framework-cloud-huawei</module>
-    </modules>
+    <artifactId>r-framework-auth</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
