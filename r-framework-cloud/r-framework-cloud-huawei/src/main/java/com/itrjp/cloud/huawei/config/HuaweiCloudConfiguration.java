@@ -7,5 +7,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnMissingBean({CloudAutoConfiguration.class})
-public class HuaweiCloudConfiguration implements CloudAutoConfiguration {
+public class HuaweiCloudConfiguration extends CloudAutoConfiguration {
 }
