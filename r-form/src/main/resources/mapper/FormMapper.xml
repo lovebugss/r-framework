@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itrjp.form.mapper.FormMapper">
+    <update id="addFormCollectCount" parameterType="java.lang.String">
+        update form set collect_count = IFNULL(collect_count, 0) + 1 where form_id = #{formId}
+    </update>
+    <select id="formStatisticByFormIds" resultType="com.itrjp.form.pojo.model.FormStatisticDTO"
+            parameterType="java.util.List">
+        SELECT
+        FORM_ID,
+        MAX( collect_count ) as collectCount,
+        MAX( field_count ) as fieldCount
+        FROM
+        (
+        SELECT
+        FORM_ID,
+        0 AS field_count,
+        COUNT( 1 ) AS collect_count
+        FROM
+        form_data fd
+        WHERE
+        fd.FORM_ID in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        GROUP BY form_id
+        UNION ALL
+        SELECT
+        FORM_ID,
+        COUNT( 1 ) AS field_count,
+        0 AS collect_count
+        FROM
+        form_field ff
+        WHERE
+        ff.FORM_ID in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        GROUP BY form_id
+        ) t
+        GROUP BY form_id
+    </select>
+    <select id="pageFormList" resultType="com.itrjp.form.pojo.model.FormDTO">
+        SELECT
+        f.FORM_ID,
+        f.TITLE,
+        f.TYPE,
+        f.ACCESS,
+        f.CREATED_BY,
+        f.CREATED_TIME,
+        f.CREATED_BY_NAME,
+        GROUP_CONCAT( DISTINCT hd.DEPT_NAME ) as dept,
+        GROUP_CONCAT( DISTINCT di.DISEASE_NAME ) as disease,
+        f.ORG_CODE
+        FROM
+        form f
+        LEFT JOIN form_disease fd ON fd.FORM_ID = f.FORM_ID
+        LEFT JOIN disease di ON di.ID = fd.DISEASE_ID
+        LEFT JOIN form_department fdept ON fdept.FORM_ID = f.FORM_ID
+        LEFT JOIN hospital_department hd ON hd.ID = fdept.DEPT_ID
+        WHERE
+        f.ORG_CODE = #{orgCode}
+        AND (
+        f.ACCESS = 'PUBLIC'
+        OR f.USER_ID IN ( #{userId} ))
+        <if test="access != null and access != ''">
+            and access = #{access}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            and (
+            title like concat('%', #{keyword}, '%') OR f.CREATED_BY_NAME LIKE CONCAT( '%', #{keyword}, '%' )
+            )
+        </if>
+        <if test="diseaseId != null and diseaseId > 0">
+            and di.ID = #{diseaseId}
+        </if>
+        <if test="deptId != null and deptId > 0">
+            and hd.ID = #{deptId}
+        </if>
+        GROUP BY
+        f.FORM_ID
+        <choose>
+            <when test="sortKey != null and sortKey == 'fieldCount'">
+                order by f.field_count ${sortType}
+            </when>
+            <when test="sortKey != null and sortKey == 'collectCount'">
+                order by f.collect_count ${sortType}
+            </when>
+            <when test="sortKey != null and sortKey == 'createdTime'">
+                order by f.CREATED_TIME ${sortType}
+            </when>
+            <otherwise>
+                order by f.CREATED_TIME desc
+            </otherwise>
+        </choose>
+
+    </select>
+    <select id="selectPublicFormByOrgCode" resultType="com.itrjp.form.pojo.entity.Form">
+        select * from form where org_code = #{orgCode} and access = 'public' and type = #{type}
+    </select>
+    <select id="selectByOpenId" resultType="com.itrjp.form.pojo.entity.Form">
+        select * from form where user_id = #{userId} and type = #{type}
+    </select>
+    <select id="selectByUserId" resultType="com.itrjp.form.pojo.entity.Form">
+        select * from form where user_id = #{userId} and type = #{type}
+    </select>
+    <select id="findById" resultType="com.itrjp.form.pojo.entity.Form">
+        select * from form where form_id = #{formId}
+    </select>
+    <select id="findBy" resultType="com.itrjp.form.pojo.entity.Form">
+        select * from form where form_id = #{formId} and created_by = #{userId}
+    </select>
+    <select id="selectFormList" resultType="com.itrjp.form.pojo.entity.Form">
+        SELECT * FROM form WHERE (( ORG_CODE = #{orgCode} AND ACCESS = 'PUBLIC' )
+        OR ( USER_ID = #{userId} AND ACCESS = 'PRIVATE' )
+        )
+        <if test="type != null and type != ''">
+            AND TYPE = #{type}
+        </if>
+        ORDER BY
+        CREATED_TIME DESC
+    </select>
+</mapper>

@@ -19,6 +19,8 @@
         <module>r-framework-cloud/r-framework-cloud-huawei</module>
         <module>r-framework-cloud/r-framework-cloud-aliyun</module>
         <module>r-framework-cloud/r-framework-cloud-amazon</module>
+        <module>r-admin</module>
+        <module>r-form</module>
     </modules>
     <name>r-framework</name>
     <description>Demo project for Spring Boot</description>
